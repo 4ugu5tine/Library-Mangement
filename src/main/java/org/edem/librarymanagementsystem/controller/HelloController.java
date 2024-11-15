@@ -1,4 +1,4 @@
-package org.edem.librarymanagementsystem;
+package org.edem.librarymanagementsystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

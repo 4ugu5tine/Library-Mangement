@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public class BookService {
 
@@ -50,8 +51,9 @@ public class BookService {
     }
 
 
-    public static void getAllBooks() {
+    public static LinkedList<Book> getAllBooks() {
         String sql = "SELECT * FROM books";
+        LinkedList<Book> results = new LinkedList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql);
@@ -65,10 +67,11 @@ public class BookService {
                 int yearPublished = rs.getInt("yearPublished");
                 boolean isAvailable = rs.getBoolean("isAvailable");
 
-                System.out.println("Book ID: " + bookId + ", Title: " + title + ", Author: " + author);
+                results.add(new Book(bookId ,title,author,publisher,yearPublished, isAvailable,genreId));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return results;
     }
 }

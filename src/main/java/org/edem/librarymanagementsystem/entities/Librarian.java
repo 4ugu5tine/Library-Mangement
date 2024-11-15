@@ -10,6 +10,12 @@ public class Librarian {
     private String email;
     private String password;
 
+    public Librarian(int librarianId, String username, String email) {
+        this.librarianId = librarianId;
+        this.username = username;
+        this.email = email;
+    }
+
     // Constructors, Getters, Setters
 
     public int getLibrarianId() {

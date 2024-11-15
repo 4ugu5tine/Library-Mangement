@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.BookController">
+   <center>
+      <TableView fx:id="book_table" prefHeight="436.0" prefWidth="691.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="column_id" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="column_title" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="column_genre" prefWidth="75.0" text="Genre" />
+            <TableColumn fx:id="column_author" prefWidth="75.0" text="Author" />
+            <TableColumn fx:id="column_publisher" prefWidth="75.0" text="Publisher" />
+            <TableColumn fx:id="column_year" prefWidth="75.0" text="Year" />
+            <TableColumn fx:id="column_available" prefWidth="75.0" text="isAvailable" />
+        </columns>
+      </TableView>
+   </center>
+   <left>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="155.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Books" />
+            <Label layoutX="63.0" layoutY="218.0" text="Categories" />
+            <Label layoutX="63.0" layoutY="234.0" text="Authors" />
+            <Label layoutX="63.0" layoutY="250.0" text="Patrons" />
+            <Label layoutX="63.0" layoutY="266.0" text="Transactions" />
+         </children>
+      </VBox>
+   </left>
+</BorderPane>

@@ -16,7 +16,10 @@ module org.edem.librarymanagementsystem {
     opens org.edem.librarymanagementsystem to javafx.fxml;
     exports org.edem.librarymanagementsystem;
     exports org.edem.librarymanagementsystem.entities;
+    opens org.edem.librarymanagementsystem.controller;
     opens org.edem.librarymanagementsystem.entities to javafx.fxml;
     exports org.edem.librarymanagementsystem.utils;
     opens org.edem.librarymanagementsystem.utils to javafx.fxml;
+    exports org.edem.librarymanagementsystem.controller;
+
 }

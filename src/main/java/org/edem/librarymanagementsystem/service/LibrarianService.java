@@ -7,9 +7,31 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public class LibrarianService {
     // CRUD Operations
+    public static LinkedList<Librarian> getAllLibrarians() {
+        String sql = "SELECT librarianId, username, email FROM librarian";
+        LinkedList<Librarian> result = new LinkedList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                int librarianId = rs.getInt("librarianId");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+
+                result.add(new Librarian(librarianId,username,email));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static void addLibrarian(Librarian librarian) throws SQLException {
         String sql = "INSERT INTO librarian (username, email, password) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();

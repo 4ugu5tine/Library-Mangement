@@ -62,6 +62,7 @@ public class Book {
         isAvailable = available;
     }
 
+
     public int getGenreId() {
         return genreId;
     }
