@@ -11,9 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.edem.librarymanagementsystem.entities.Book;
-import org.edem.librarymanagementsystem.entities.Librarian;
 import org.edem.librarymanagementsystem.service.BookService;
-import org.edem.librarymanagementsystem.service.LibrarianService;
 
 public class BookController {
 

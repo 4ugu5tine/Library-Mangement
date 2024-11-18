@@ -7,6 +7,7 @@ import java.sql.*;
 public class TransactionService {
 
 
+
     public static void getAllTransactions() {
         String sql = "SELECT * FROM transaction";
 

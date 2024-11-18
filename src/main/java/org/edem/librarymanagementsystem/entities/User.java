@@ -1,10 +1,6 @@
 package org.edem.librarymanagementsystem.entities;
 
-import org.edem.librarymanagementsystem.utils.DatabaseConnection;
-
-import java.sql.*;
-
-public class Patron {
+public class User {
     private int patronId;
     private String name;
     private String email;
@@ -42,7 +38,7 @@ public class Patron {
         this.phone = phone;
     }
 
-    public Patron(int patronId, String name, String email, String phone) {
+    public User(int patronId, String name, String email, String phone) {
         this.patronId = patronId;
         this.name = name;
         this.email = email;

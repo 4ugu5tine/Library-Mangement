@@ -7,52 +7,54 @@ import java.sql.Statement;
 public class DatabaseInitializer {
 
 
-        private static final String URL = "jdbc:postgresql://localhost:5432/your_database_name";
-        private static final String USER = "your_username";
-        private static final String PASSWORD = "your_password";
+        private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
+        private static final String USER = "postgres";
+        private static final String PASSWORD = "work";
 
         public static void main(String[] args) {
             String createTablesSQL = """
-            CREATE TABLE IF NOT EXISTS books (
-                bookId SERIAL PRIMARY KEY,
-                title VARCHAR(255) NOT NULL,
-                genreId INTEGER NOT NULL,
-                author VARCHAR(255) NOT NULL,
-                publisher VARCHAR(255) NOT NULL,
-                yearPublished INT NOT NULL,
-                isAvailable BOOLEAN DEFAULT TRUE
-            );
-
-            CREATE TABLE IF NOT EXISTS genre (
-                genreId SERIAL PRIMARY KEY,
-                name VARCHAR(100) NOT NULL,
-                description TEXT
-            );
-
-            CREATE TABLE IF NOT EXISTS patron (
-                patronId SERIAL PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                phone VARCHAR(15),
-                borrowedBooks INTEGER DEFAULT 0
-            );
-
-            CREATE TABLE IF NOT EXISTS librarian (
-                librarianId SERIAL PRIMARY KEY,
-                username VARCHAR(255) UNIQUE NOT NULL,
-                email VARCHAR(255) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL
-            );
-
-            CREATE TABLE IF NOT EXISTS transaction (
-                transactionId SERIAL PRIMARY KEY,
-                bookId INTEGER NOT NULL REFERENCES books(bookId),
-                patronId INTEGER NOT NULL REFERENCES patron(patronId),
-                borrowDate DATE NOT NULL,
-                returnDate DATE,
-                isReturned BOOLEAN DEFAULT FALSE,
-                librarianId INTEGER NOT NULL REFERENCES librarian(librarianId)
-            );
+            CREATE TABLE IF NOT EXISTS users (
+                  userId SERIAL PRIMARY KEY,
+                  name VARCHAR(255) NOT NULL,
+                  email VARCHAR(255) UNIQUE NOT NULL,
+                  phone VARCHAR(15),
+                  password VARCHAR(255) NOT NULL,
+                  accountType VARCHAR(50) NOT NULL CHECK (accountType IN ('Librarian', 'Patron')),
+                  borrowedBooks INTEGER DEFAULT 0 
+              );
+              
+              CREATE TABLE IF NOT EXISTS books (
+                  bookId SERIAL PRIMARY KEY,
+                  title VARCHAR(255) NOT NULL,
+                  genreId INTEGER NOT NULL,
+                  author VARCHAR(255) NOT NULL,
+                  publisher VARCHAR(255) NOT NULL,
+                  yearPublished INT NOT NULL,
+                  isAvailable BOOLEAN DEFAULT TRUE
+              );
+              
+       
+              CREATE TABLE IF NOT EXISTS genre (
+                  genreId SERIAL PRIMARY KEY,
+                  name VARCHAR(100) NOT NULL,
+                  description TEXT
+              );
+              
+              CREATE TABLE IF NOT EXISTS reservation (
+                  reservationId SERIAL PRIMARY KEY,
+                  userId INTEGER NOT NULL REFERENCES users(userId), 
+                  bookId INTEGER NOT NULL REFERENCES books(bookId), 
+                  date DATE NOT NULL 
+              );
+              
+              CREATE TABLE IF NOT EXISTS transaction (
+                  transactionId SERIAL PRIMARY KEY,
+                  bookId INTEGER NOT NULL REFERENCES books(bookId),
+                  userId INTEGER NOT NULL REFERENCES users(userId), 
+                  borrowDate DATE NOT NULL,
+                  returnDate DATE,
+                  isReturned BOOLEAN DEFAULT FALSE
+              );
         """;
 
             try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);

@@ -7,7 +7,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.edem.librarymanagementsystem.entities.Librarian;
-import org.edem.librarymanagementsystem.service.LibrarianService;
 
 import java.util.LinkedList;
 
