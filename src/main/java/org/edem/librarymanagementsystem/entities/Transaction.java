@@ -8,18 +8,18 @@ import java.time.LocalDate;
 public class Transaction {
     private int transactionId;
     private int bookId;
-    private int patronId;
+    private int userId;
     private LocalDate borrowDate;
     private LocalDate returnDate;
     private boolean isReturned;
-    private int librarianId;
 
-    public int getLibrarianId() {
-        return librarianId;
-    }
-
-    public void setLibrarianId(int librarianId) {
-        this.librarianId = librarianId;
+    public Transaction(int transactionId, int bookId, int userId, LocalDate borrowDate, LocalDate returnDate, boolean isReturned) {
+        this.transactionId = transactionId;
+        this.bookId = bookId;
+        this.userId = userId;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+        this.isReturned = isReturned;
     }
 
     public boolean isReturned() {
@@ -46,12 +46,12 @@ public class Transaction {
         this.borrowDate = borrowDate;
     }
 
-    public int getPatronId() {
-        return patronId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setPatronId(int patronId) {
-        this.patronId = patronId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getBookId() {
@@ -69,31 +69,4 @@ public class Transaction {
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
-
-    public Transaction(int transactionId, int bookId, int patronId, LocalDate borrowDate, LocalDate returnDate, boolean isReturned, int librarianId) {
-        this.transactionId = transactionId;
-        this.bookId = bookId;
-        this.patronId = patronId;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
-        this.isReturned = isReturned;
-        this.librarianId = librarianId;
-    }
-
-    // CRUD Operations
-    public static void addTransaction(Transaction transaction) throws SQLException {
-        String sql = "INSERT INTO transaction (bookId, patronId, borrowDate, returnDate, isReturned, librarianId) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, transaction.getBookId());
-            stmt.setInt(2, transaction.getPatronId());
-            stmt.setDate(3, Date.valueOf(transaction.getBorrowDate()));
-            stmt.setDate(4, transaction.getReturnDate() == null ? null : Date.valueOf(transaction.getReturnDate()));
-            stmt.setBoolean(5, transaction.isReturned());
-            stmt.setInt(6, transaction.getLibrarianId());
-            stmt.executeUpdate();
-        }
-    }
-
-    // Other CRUD methods...
 }

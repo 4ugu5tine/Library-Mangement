@@ -1,17 +1,32 @@
 package org.edem.librarymanagementsystem.entities;
 
 public class User {
-    private int patronId;
+    private int userId;
     private String name;
     private String email;
     private String phone;
+    private String address;
+    private String password;
+    private String accountType;
+    private int borrowedBooks;
 
-    public int getPatronId() {
-        return patronId;
+    public User(int userId, String name, String email, String phone, String address, String accountType, int borrowedBooks) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.accountType = accountType;
+        this.borrowedBooks = borrowedBooks;
     }
 
-    public void setPatronId(int patronId) {
-        this.patronId = patronId;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -38,15 +53,36 @@ public class User {
         this.phone = phone;
     }
 
-    public User(int patronId, String name, String email, String phone) {
-        this.patronId = patronId;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
+    public String getPassword() {
+        return password;
     }
 
-    // CRUD Operations
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    // Other CRUD methods...
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public int getBorrowedBooks() {
+        return borrowedBooks;
+    }
+
+    public void setBorrowedBooks(int borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
 

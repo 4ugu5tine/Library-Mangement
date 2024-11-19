@@ -1,11 +1,16 @@
 package org.edem.librarymanagementsystem.service;
 
+import org.edem.librarymanagementsystem.entities.Transaction;
 import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class TransactionService {
 
+    private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "work";
 
 
     public static void getAllTransactions() {
@@ -17,78 +22,130 @@ public class TransactionService {
             while (rs.next()) {
                 int transactionId = rs.getInt("transactionId");
                 int bookId = rs.getInt("bookId");
-                int patronId = rs.getInt("patronId");
-                Date borrowDate = rs.getDate("borrowDate");
-                Date returnDate = rs.getDate("returnDate");
+                int userId = rs.getInt("userId");
+                LocalDate borrowDate = rs.getDate("borrowDate").toLocalDate();
+                LocalDate returnDate =  rs.getDate("returnDate").toLocalDate();
                 boolean isReturned = rs.getBoolean("isReturned");
                 int librarianId = rs.getInt("librarianId");
 
-                System.out.println("Transaction ID: " + transactionId + ", Book ID: " + bookId + ", Patron ID: " + patronId);
+                System.out.println("Transaction ID: " + transactionId + ", Book ID: " + bookId + ", Patron ID: " + userId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void borrowBook(int bookId, int patronId, int librarianId) {
-        String borrowSql = "INSERT INTO transaction (bookId, patronId, borrowDate, isReturned, librarianId) VALUES (?, ?, ?, ?, ?)";
-        String updateBookSql = "UPDATE books SET isAvailable = FALSE WHERE bookId = ?";
+    public static Transaction borrowBook(int bookId, int userId) {
+        String borrowSql = "INSERT INTO transaction (bookId, userId, borrowDate, isReturned) VALUES (?, ?, CURRENT_DATE, false)";
+        String updateBookSql = """
+    UPDATE books 
+    SET copies = copies - 1, 
+        isAvailable = CASE WHEN copies - 1 > 0 THEN TRUE ELSE FALSE END 
+    WHERE bookId = ? AND copies > 0
+    """;
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        Transaction transaction = null;
+
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement statement = connection.prepareStatement(borrowSql)) {
+            // Insert new transaction
+            try (PreparedStatement statement = connection.prepareStatement(borrowSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setInt(1, bookId);
-                statement.setInt(2, patronId);
-                statement.setDate(3, new Date(System.currentTimeMillis()));
-                statement.setBoolean(4, false); // Initially not returned
-                statement.setInt(5, librarianId);
-                statement.executeUpdate();
+                statement.setInt(2, userId);
+                statement.setDate(3, Date.valueOf(LocalDate.now())); // Current date
+                statement.setBoolean(4, false);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    // Get the generated transactionId
+                    ResultSet generatedKeys = statement.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        int transactionId = generatedKeys.getInt(1);
+
+                        // Create the transaction object
+                        transaction = new Transaction(transactionId, bookId, userId, LocalDate.now(), null, false);
+                    }
+                }
             }
 
+            // Update the book's availability
             try (PreparedStatement statement = connection.prepareStatement(updateBookSql)) {
                 statement.setInt(1, bookId);
                 statement.executeUpdate();
             }
 
             connection.commit();
-            System.out.println("Book borrowed successfully!");
 
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
+
+        return transaction;
     }
 
-    public boolean returnBook(int transactionId, int bookId) {
+
+    public static Transaction returnBook(int transactionId, int bookId) {
         String returnSql = "UPDATE transactions SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?";
-        String updateBookQuery = "UPDATE books SET isAvailable = TRUE WHERE bookId = ?";
+        String updateBookQuery = """
+        UPDATE books 
+        SET copies = copies + 1, 
+            isAvailable = TRUE 
+        WHERE bookId = ?
+    """;
+
+        Transaction transaction = null;
 
         try (Connection connection = DatabaseConnection.getConnection()) {
             connection.setAutoCommit(false);
 
-            try(
-                    PreparedStatement transactionStatement = connection.prepareStatement(returnSql);
-                    PreparedStatement bookStatement = connection.prepareStatement(updateBookQuery))
-            {
+            // Prepare statements
+            try (PreparedStatement transactionStatement = connection.prepareStatement(returnSql);
+                 PreparedStatement bookStatement = connection.prepareStatement(updateBookQuery)) {
 
-                transactionStatement.setInt(1,transactionId);
+                transactionStatement.setInt(1, transactionId);
 
                 int transactionUpdate = transactionStatement.executeUpdate();
-
-                bookStatement.setInt(1,bookId);
+                bookStatement.setInt(1, bookId);
                 int bookUpdate = bookStatement.executeUpdate();
 
-                // If both updates are successful, return true
-                return transactionUpdate > 0 && bookUpdate > 0;
-            }
+                if (transactionUpdate > 0 && bookUpdate > 0) {
+                    // Commit the transaction
+                    connection.commit();
 
+                    // Retrieve the transaction details
+                    String getTransactionDetails = "SELECT * FROM transactions WHERE transactionId = ?";
+                    try (PreparedStatement ps = connection.prepareStatement(getTransactionDetails)) {
+                        ps.setInt(1, transactionId);
+                        ResultSet resultSet = ps.executeQuery();
+
+                        if (resultSet.next()) {
+                            int transactionIdFetched = resultSet.getInt("transactionId");
+                            int bookIdFetched = resultSet.getInt("bookId");
+                            int userIdFetched = resultSet.getInt("userId");
+                            LocalDate borrowDate = resultSet.getDate("borrowDate").toLocalDate();
+                            LocalDate returnDate = resultSet.getDate("returnDate") != null ? resultSet.getDate("returnDate").toLocalDate() : null;
+                            boolean isReturned = resultSet.getBoolean("isReturned");
+
+                            // Create the transaction object
+                            transaction = new Transaction(transactionIdFetched, bookIdFetched, userIdFetched, borrowDate, returnDate, isReturned);
+                        }
+                    }
+
+                    return transaction;
+
+                } else {
+                    connection.rollback();
+                    return null;
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
+
 
 
 }

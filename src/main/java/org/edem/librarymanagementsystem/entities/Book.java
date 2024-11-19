@@ -12,6 +12,7 @@ public class Book {
     private int yearPublished;
     private boolean isAvailable;
     private int genreId;
+    private int copies;
 
 
     public int getBookId() {
@@ -71,7 +72,7 @@ public class Book {
         this.genreId = genreId;
     }
 
-    public Book(int bookId, String title, String author, String publisher, int yearPublished, boolean isAvailable, int genreId) {
+    public Book(int bookId, String title, String author, String publisher, int yearPublished, boolean isAvailable, int genreId, int copies) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
@@ -79,6 +80,7 @@ public class Book {
         this.yearPublished = yearPublished;
         this.isAvailable = isAvailable;
         this.genreId = genreId;
+        this.copies = copies;
     }
 
     // CRUD Operations

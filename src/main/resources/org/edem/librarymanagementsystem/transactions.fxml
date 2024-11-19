@@ -1,0 +1,32 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.TransactionController">
+
+    <center>
+        <TableView fx:id="transaction_table" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="column_transactionId" prefWidth="100.0" text="Transaction ID" />
+                <TableColumn fx:id="column_bookId" prefWidth="100.0" text="Book ID" />
+                <TableColumn fx:id="column_userId" prefWidth="100.0" text="User ID" />
+                <TableColumn fx:id="column_borrowDate" prefWidth="150.0" text="Borrow Date" />
+                <TableColumn fx:id="column_returnDate" prefWidth="150.0" text="Return Date" />
+                <TableColumn fx:id="column_isReturned" prefWidth="100.0" text="Returned" />
+            </columns>
+        </TableView>
+    </center>
+
+    <left>
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="155.0" spacing="15.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Categories" />
+                <Label text="Authors" />
+                <Label text="Patrons" />
+                <Label text="Transactions" />
+            </children>
+        </VBox>
+    </left>
+</BorderPane>

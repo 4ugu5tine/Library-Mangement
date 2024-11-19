@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.BookController">
    <center>
       <TableView fx:id="book_table" prefHeight="436.0" prefWidth="691.0" BorderPane.alignment="CENTER">
@@ -17,7 +16,7 @@
             <TableColumn fx:id="column_author" prefWidth="75.0" text="Author" />
             <TableColumn fx:id="column_publisher" prefWidth="75.0" text="Publisher" />
             <TableColumn fx:id="column_year" prefWidth="75.0" text="Year" />
-            <TableColumn fx:id="column_available" prefWidth="75.0" text="isAvailable" />
+            <TableColumn fx:id="column_available" prefWidth="75.0" text="Available" />
         </columns>
       </TableView>
    </center>
