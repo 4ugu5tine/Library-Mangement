@@ -140,7 +140,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.edem.librarymanagementsystem/org.edem.librarymanagementsystem.HelloApplication
+                                org.edem.librarymanagementsystem/org.edem.librarymanagementsystem.App
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

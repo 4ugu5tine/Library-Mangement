@@ -5,6 +5,7 @@ import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 public class TransactionService {
 
@@ -13,8 +14,9 @@ public class TransactionService {
     private static final String PASSWORD = "work";
 
 
-    public static void getAllTransactions() {
+    public static LinkedList<Transaction> getAllTransactions() {
         String sql = "SELECT * FROM transaction";
+        LinkedList<Transaction> transactions = new LinkedList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql);
@@ -26,13 +28,13 @@ public class TransactionService {
                 LocalDate borrowDate = rs.getDate("borrowDate").toLocalDate();
                 LocalDate returnDate =  rs.getDate("returnDate").toLocalDate();
                 boolean isReturned = rs.getBoolean("isReturned");
-                int librarianId = rs.getInt("librarianId");
 
-                System.out.println("Transaction ID: " + transactionId + ", Book ID: " + bookId + ", Patron ID: " + userId);
+                transactions.add(new Transaction(transactionId,bookId,userId,borrowDate,returnDate,isReturned));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return transactions;
     }
 
     public static Transaction borrowBook(int bookId, int userId) {

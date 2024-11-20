@@ -7,9 +7,9 @@ public class Reservation {
     private int reservationId;
     private int userId;
     private int bookId;
-    private Date date;
+    private LocalDate date;
 
-    public Reservation(int reservationId, int userId, int bookId, Date date) {
+    public Reservation(int reservationId, int userId, int bookId, LocalDate date) {
         this.reservationId = reservationId;
         this.userId = userId;
         this.bookId = bookId;
@@ -40,11 +40,11 @@ public class Reservation {
         this.bookId = bookId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

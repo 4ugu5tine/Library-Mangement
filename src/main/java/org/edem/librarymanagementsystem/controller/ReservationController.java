@@ -1,72 +1,68 @@
 package org.edem.librarymanagementsystem.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import org.edem.librarymanagementsystem.entities.Reservation;
+import org.edem.librarymanagementsystem.service.ReservationService;
 
 public class ReservationController {
 
     @FXML
-    private TextField bookId_field;
+    private ResourceBundle resources;
 
     @FXML
-    private DatePicker date_field;
+    private URL location;
 
     @FXML
-    private Button reserveButton;
+    private TableView<Reservation> reservation_table;
+    @FXML
+    private TableColumn<Reservation, Integer> column_bookId;
 
     @FXML
-    private TextField userId_field;
+    private TableColumn<Reservation, LocalDate> column_date;
 
     @FXML
-    public void handleReserveButtonAction() {
-        String userId = userId_field.getText();
-        String bookId = bookId_field.getText();
-        LocalDate reservationDate = date_field.getValue();
+    private TableColumn<Reservation, Integer> column_reservationId;
 
-        // Validate User ID
-        if (userId == null || userId.trim().isEmpty() || !isNumeric(userId)) {
-            showAlert("Validation Error", "Please enter a valid User ID.");
-            return;
-        }
+    @FXML
+    private TableColumn<Reservation, Integer> column_userId;
 
-        // Validate Book ID
-        if (bookId == null || bookId.trim().isEmpty() || !isNumeric(bookId)) {
-            showAlert("Validation Error", "Please enter a valid Book ID.");
-            return;
-        }
+    @FXML
+    private Button delete_reservation;
 
-        // Validate Date
-        if (reservationDate == null) {
-            showAlert("Validation Error", "Please select a reservation date.");
-            return;
-        }
+    @FXML
+    private Button update_reservation;
 
-        // If all validations pass
-        System.out.println("Reservation successful for User ID: " + userId + ", Book ID: " + bookId + ", Date: " + reservationDate);
+    @FXML
+    void delete_reservation(MouseEvent event) {
+
     }
 
-    private boolean isNumeric(String str) {
-        if (str == null) {
-            return false;
-        }
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    @FXML
+    void update_reservation(MouseEvent event) {
+
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private ObservableList<Reservation> reservationList = FXCollections.observableArrayList();
+
+    public void initialize() {
+        column_date.setCellValueFactory(new PropertyValueFactory<Reservation, LocalDate>("date"));
+        column_userId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("userid"));
+        column_bookId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("bookid"));
+
+        LinkedList<Reservation> reservations = ReservationService.getAllReservations();
+
+        reservationList.addAll(reservationList);
     }
 }

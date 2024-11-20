@@ -5,8 +5,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.edem.librarymanagementsystem.App;
 import org.edem.librarymanagementsystem.entities.User;
 import org.edem.librarymanagementsystem.service.UserService;
+
+import java.io.IOException;
 
 public class AuthController {
 
@@ -19,11 +22,12 @@ public class AuthController {
     @FXML
     private Button loginButton;
 
-    public void handleLoginButtonAction() {
+    @FXML
+    public void login() throws IOException {
         String email = email_field.getText();
         String password = password_field.getText();
 
-        // Basic validation
+
         if (email == null || email.isEmpty()) {
             showAlert("Validation Error", "Username cannot be empty.");
             return;
@@ -36,9 +40,11 @@ public class AuthController {
 
         User user = UserService.login(email,password);
 
-
-        // Proceed with login logic
-        System.out.println("Login successful! Username: " + user.getName());
+        if(user == null){
+            showAlert("Validation Error", "Email or password incorrect");
+        } else {
+            App.setRoot("layout");
+        }
     }
 
     private void showAlert(String title, String message) {

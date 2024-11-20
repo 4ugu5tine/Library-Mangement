@@ -1,9 +1,5 @@
 package org.edem.librarymanagementsystem.entities;
 
-import org.edem.librarymanagementsystem.utils.DatabaseConnection;
-
-import java.sql.*;
-
 public class Book {
     private int bookId;
     private String title;
@@ -11,7 +7,7 @@ public class Book {
     private String publisher;
     private int yearPublished;
     private boolean isAvailable;
-    private int genreId;
+    private String genre;
     private int copies;
 
 
@@ -64,28 +60,34 @@ public class Book {
     }
 
 
-    public int getGenreId() {
-        return genreId;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public int getCopies() {
+        return copies;
     }
 
-    public Book(int bookId, String title, String author, String publisher, int yearPublished, boolean isAvailable, int genreId, int copies) {
+    public void setCopies(int copies) {
+        this.copies = copies;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public Book(int bookId, String title, String author, String publisher, int yearPublished, boolean isAvailable, String genre, int copies) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.yearPublished = yearPublished;
         this.isAvailable = isAvailable;
-        this.genreId = genreId;
+        this.genre = genre;
         this.copies = copies;
     }
 
-    // CRUD Operations
 
 
-    // Other CRUD methods...
 }
 

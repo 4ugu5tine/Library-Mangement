@@ -26,10 +26,12 @@
     <left>
         <VBox alignment="CENTER" prefHeight="400.0" prefWidth="155.0" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
+                <Label text="Books" />
                 <Label text="Categories" />
                 <Label text="Authors" />
                 <Label text="Patrons" />
                 <Label text="Transactions" />
+                <Label text="Reservations" />
             </children>
         </VBox>
     </left>

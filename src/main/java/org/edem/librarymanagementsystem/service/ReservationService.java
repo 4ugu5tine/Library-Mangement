@@ -1,7 +1,11 @@
 package org.edem.librarymanagementsystem.service;
 
+import org.edem.librarymanagementsystem.entities.Reservation;
+import org.edem.librarymanagementsystem.utils.DatabaseConnection;
+
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 public class ReservationService {
     private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
@@ -9,7 +13,7 @@ public class ReservationService {
     private static final String PASSWORD = "work";
 
 
-    public static void createReservation(int userId, int bookId, Date date){
+    public static void createReservation(int userId, int bookId, Date date) {
         String sql = """
                 INSERT INTO reservation (userId, bookId, date)
                 VALUES (?,?,?)
@@ -27,8 +31,29 @@ public class ReservationService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
+        public static LinkedList<Reservation> getAllReservations () {
+            String sql = "SELECT  * FROM reservation";
+            LinkedList<Reservation> reservations = new LinkedList<>();
+
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement statement = conn.prepareStatement(sql);
+                 ResultSet rs = statement.executeQuery()) {
+
+                while (rs.next()) {
+                    int reservationId = rs.getInt("reservationId");
+                    int bookId = rs.getInt("bookId");
+                    int userId = rs.getInt("userId");
+                    LocalDate date = rs.getDate("date").toLocalDate();
+
+                    reservations.add(new Reservation(reservationId, userId,bookId,date));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return reservations;
+        }
 
 }

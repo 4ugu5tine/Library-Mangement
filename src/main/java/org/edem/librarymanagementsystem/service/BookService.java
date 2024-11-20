@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public class BookService {
 
     public static void addBook(Book book) throws SQLException {
-        String sql = "INSERT INTO books (title, author, publisher, yearPublished, isAvailable, genreId,copies) VALUES (?, ?, ?, ?, TRUE, 0)";
+        String sql = "INSERT INTO books (title, author, publisher, yearPublished, isAvailable, genre,copies) VALUES (?, ?, ?, ?, TRUE,?, 0)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, book.getTitle());
@@ -22,7 +22,8 @@ public class BookService {
             statement.setString(3, book.getPublisher());
             statement.setInt(4, book.getYearPublished());
             statement.setBoolean(5, book.isAvailable());
-            statement.setInt(6, book.getGenreId());
+            statement.setString(6, book.getGenre());
+            statement.setInt(7, book.getCopies());
             statement.executeUpdate();
         }
     }
@@ -41,7 +42,7 @@ public class BookService {
                         rs.getString("publisher"),
                         rs.getInt("yearPublished"),
                         rs.getBoolean("isAvailable"),
-                        rs.getInt("genreId"),
+                        rs.getString("genreId"),
                         rs.getInt("copies")
                 );
             }
@@ -74,7 +75,7 @@ public class BookService {
             while (rs.next()) {
                 int bookId = rs.getInt("bookId");  // assuming snake_case in database
                 String title = rs.getString("title");
-                int genreId = rs.getInt("genreId");
+                String genreId = rs.getString("genre");
                 String author = rs.getString("author");
                 String publisher = rs.getString("publisher");
                 int yearPublished = rs.getInt("year_published");
@@ -109,14 +110,14 @@ public class BookService {
             while (rs.next()) {
                 int bookId = rs.getInt("bookId");
                 String title = rs.getString("title");
-                int genreId = rs.getInt("genreId");
+                String genre = rs.getString("genre");
                 String author = rs.getString("author");
                 String publisher = rs.getString("publisher");
                 int yearPublished = rs.getInt("yearPublished");
                 boolean isAvailable = rs.getBoolean("isAvailable");
                 int copies = rs.getInt("copies");
 
-                results.add(new Book(bookId ,title,author,publisher,yearPublished, isAvailable,genreId, copies));
+                results.add( new Book( bookId,  title,  author,  publisher,  yearPublished,  isAvailable,  genre,  copies));
             }
         } catch (SQLException e) {
             e.printStackTrace();
