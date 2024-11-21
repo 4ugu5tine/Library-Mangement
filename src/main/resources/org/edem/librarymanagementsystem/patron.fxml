@@ -20,6 +20,7 @@
                 <TableColumn fx:id="column_email" prefWidth="75.0" text="Email" />
                 <TableColumn fx:id="column_address" prefWidth="75.0" text="Address" />
                 <TableColumn fx:id="column_phone" prefWidth="75.0" text="Phone" />
+                <TableColumn fx:id="column_accountType" prefWidth="75.0" text="Account Type" />
                 <TableColumn fx:id="column_borrowed" prefWidth="75.0" text="Borrowed" />
             </columns>
          <columnResizePolicy>

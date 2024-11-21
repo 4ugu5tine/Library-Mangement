@@ -57,7 +57,7 @@ public class BookController {
 
     @FXML
     void update_book(MouseEvent event) {
-
+        BookService.deleteBook(book_table.getSelectionModel().getSelectedItem().getBookId());
     }
 
     private ObservableList<Book> bookList = FXCollections.observableArrayList();

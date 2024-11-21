@@ -3,7 +3,7 @@ package org.edem.librarymanagementsystem.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -58,11 +58,14 @@ public class ReservationController {
 
     public void initialize() {
         column_date.setCellValueFactory(new PropertyValueFactory<Reservation, LocalDate>("date"));
-        column_userId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("userid"));
-        column_bookId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("bookid"));
+        column_reservationId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("reservationId"));
+        column_userId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("userId"));
+        column_bookId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("bookId"));
 
         LinkedList<Reservation> reservations = ReservationService.getAllReservations();
 
-        reservationList.addAll(reservationList);
+        reservationList.addAll(reservations);
+
+        reservation_table.setItems(reservationList);
     }
 }

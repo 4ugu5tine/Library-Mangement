@@ -38,7 +38,7 @@ public class TransactionController {
     @FXML
     private TableColumn<Transaction, Boolean> column_isReturned;
 
-    private ObservableList<Object> transactionList = FXCollections.observableArrayList();
+    private ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
     @FXML
     public void initialize() {
         column_transactionId.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
@@ -49,6 +49,8 @@ public class TransactionController {
         column_isReturned.setCellValueFactory(new PropertyValueFactory<>("isReturned"));
 
         LinkedList<Transaction> transactions = TransactionService.getAllTransactions();
+        transactionList.addAll(transactions);
+        transaction_table.setItems(transactionList);
     }
 
 

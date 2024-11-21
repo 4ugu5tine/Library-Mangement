@@ -11,14 +11,14 @@
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="186.0" spacing="10.0" style="-fx-background-color: beige;">
          <children>
             <Label fx:id="route_books" onMouseClicked="#navBooks" text="Books" />
-            <Label fx:id="route_categories" layoutX="89.0" layoutY="201.0" onMouseClicked="#navCategories" text="Categories" />
             <Label fx:id="route_patrons" layoutX="89.0" layoutY="210.0" onMouseClicked="#navPatrons" text="Patrons" />
             <Label fx:id="route_transactions" layoutX="89.0" layoutY="219.0" onMouseClicked="#navTransactions" text="Transactions" />
-            <Label fx:id="routre_reservations" layoutX="89.0" layoutY="228.0" onMouseClicked="#navReservations" text="Reservations" />
+            <Label fx:id="route_reservations" layoutX="89.0" layoutY="228.0" onMouseClicked="#navReservations" text="Reservations" />
             <Label fx:id="route_addBooks" layoutX="89.0" layoutY="236.0" onMouseClicked="#navAddBooks" text="Add Books" />
             <Label fx:id="route_addPatron" layoutX="89.0" layoutY="245.0" onMouseClicked="#navAddPatron" text="Add Patron" />
-            <Label fx:id="route_addTransaction" layoutX="89.0" layoutY="254.0" onMouseClicked="#navAddTransaction" text="Add Transaction" />
-            <Label fx:id="route_addReservation" layoutX="89.0" layoutY="263.0" onMouseClicked="#navAddReservation" text="Add Reservation" />
+            <Label fx:id="route_addBorrowBook" layoutX="89.0" layoutY="254.0" onMouseClicked="#navAddTransaction" text="Borrow Book" />
+            <Label fx:id="route_returnBook" layoutX="89.0" layoutY="254.0" onMouseClicked="#navReturnBook" text="Return Book" />
+            <Label fx:id="route_addReservation" layoutX="89.0" layoutY="263.0" onMouseClicked="#navAddReservation" text="Make Reservation" />
             <Label layoutX="89.0" layoutY="280.0" text="Logout" />
          </children>
       </VBox>

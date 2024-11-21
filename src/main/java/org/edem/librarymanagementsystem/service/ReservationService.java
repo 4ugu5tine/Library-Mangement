@@ -13,7 +13,7 @@ public class ReservationService {
     private static final String PASSWORD = "work";
 
 
-    public static void createReservation(int userId, int bookId, Date date) {
+    public static void createReservation(int userId, int bookId, LocalDate date) {
         String sql = """
                 INSERT INTO reservation (userId, bookId, date)
                 VALUES (?,?,?)
@@ -34,7 +34,7 @@ public class ReservationService {
     }
 
         public static LinkedList<Reservation> getAllReservations () {
-            String sql = "SELECT  * FROM reservation";
+            String sql = "SELECT  * FROM reservation ORDER BY date ASC";
             LinkedList<Reservation> reservations = new LinkedList<>();
 
             try (Connection conn = DatabaseConnection.getConnection();
@@ -42,9 +42,9 @@ public class ReservationService {
                  ResultSet rs = statement.executeQuery()) {
 
                 while (rs.next()) {
-                    int reservationId = rs.getInt("reservationId");
-                    int bookId = rs.getInt("bookId");
-                    int userId = rs.getInt("userId");
+                    int reservationId = rs.getInt("reservationid");
+                    int bookId = rs.getInt("bookid");
+                    int userId = rs.getInt("userid");
                     LocalDate date = rs.getDate("date").toLocalDate();
 
                     reservations.add(new Reservation(reservationId, userId,bookId,date));

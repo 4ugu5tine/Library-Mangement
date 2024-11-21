@@ -1,48 +1,47 @@
 package org.edem.librarymanagementsystem.controller;
 
-
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import org.edem.librarymanagementsystem.App;
 import org.edem.librarymanagementsystem.service.TransactionService;
 
-import java.time.LocalDate;
+import java.io.IOException;
 
 public class BorrowBookController {
-    @FXML
-    private TextField userId_field;
 
     @FXML
-    private TextField bookId_field;
-
-
-    @FXML
-    private Button borrowButton;
+    private TextField bookid;
 
     @FXML
-    private void handleBorrowBook() {
-        String userId = userId_field.getText();
-        String bookId = bookId_field.getText();
+    private Button borrow;
 
+    @FXML
+    private Label error_bookid;
 
-        // Validate input
-        if (userId == null || userId.isEmpty() || bookId == null || bookId.isEmpty()) {
-            showAlert("Validation Error", "All fields are required.");
-            return;
+    @FXML
+    private Label error_patronid;
+
+    @FXML
+    private TextField patronId;
+
+    @FXML
+    void borrow(MouseEvent event) throws IOException {
+        if(patronId.getText().isEmpty()){
+            error_patronid.setText("Patron Id cannot be empty");
         }
+        else if(bookid.getText().isEmpty()){
+            error_bookid.setText("Book Id cannot be empty");
+        }
+        else {
+            error_bookid.setText("");
+            error_patronid.setText("");
 
-        // Call borrowBook logic
-        int userIdInt = Integer.parseInt(userId);
-        int bookIdInt = Integer.parseInt(bookId);
-        TransactionService.borrowBook(bookIdInt, userIdInt);
+            TransactionService.borrowBook(Integer.parseInt(bookid.getText()),Integer.parseInt(patronId.getText()));
+            App.setRoot("transactions");
+        }
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }

@@ -4,50 +4,44 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.edem.librarymanagementsystem.entities.Transaction;
+import javafx.scene.input.MouseEvent;
+import org.edem.librarymanagementsystem.App;
 import org.edem.librarymanagementsystem.service.TransactionService;
+
+import java.io.IOException;
 
 public class ReturnBookController {
 
     @FXML
-    private TextField transactionId_field;
+    private TextField bookid;
 
     @FXML
-    private TextField bookId_field;
+    private Button borrow;
 
     @FXML
-    private Button returnButton;
+    private Label error_bookid;
 
     @FXML
-    private Label validationMessage;
+    private Label error_transactionid;
 
     @FXML
-    public void handleReturnBook() {
-        String transactionIdText = transactionId_field.getText();
-        String bookIdText = bookId_field.getText();
+    private TextField transactionid;
 
-        if (transactionIdText.isEmpty() || bookIdText.isEmpty()) {
-            validationMessage.setText("Both fields must be filled out.");
-            validationMessage.setVisible(true);
-            return;
+    @FXML
+    void create(MouseEvent event) throws IOException {
+        if(bookid.getText().isEmpty()){
+            error_bookid.setText("Book ID cannot be null");
         }
+        else if (transactionid.getText().isEmpty()){
+            error_transactionid.setText("Transaction ID cannot be null");
+        }
+        else {
+            error_transactionid.setText("");
+            error_bookid.setText("");
 
-        try {
-            int transactionId = Integer.parseInt(transactionIdText);
-            int bookId = Integer.parseInt(bookIdText);
-
-            Transaction transaction = TransactionService.returnBook(transactionId, bookId);
-
-            if (transaction != null) {
-                validationMessage.setText("Book returned successfully!");
-                validationMessage.setTextFill(javafx.scene.paint.Color.GREEN);
-            } else {
-                validationMessage.setText("Failed to return book. Please check the transaction ID and book ID.");
-                validationMessage.setVisible(true);
-            }
-        } catch (NumberFormatException e) {
-            validationMessage.setText("Invalid transaction ID or book ID.");
-            validationMessage.setVisible(true);
+            TransactionService.returnBook(Integer.parseInt(transactionid.getText()),Integer.parseInt(bookid.getText()));
+            App.setRoot("transactions");
         }
     }
+
 }

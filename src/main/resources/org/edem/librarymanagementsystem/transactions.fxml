@@ -29,8 +29,8 @@
     </TableView>
     <HBox alignment="CENTER_LEFT" prefHeight="22.0" prefWidth="442.0" spacing="10.0">
         <children>
-            <Button fx:id="update_user" mnemonicParsing="false" onMouseClicked="#update_transaction" text="Update" />
-            <Button fx:id="delete_user" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#delete_transaction" text="Delete" />
+            <Button fx:id="update_transactio" mnemonicParsing="false" onMouseClicked="#update_transaction" text="Update" />
+            <Button fx:id="delete_transaction" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#delete_transaction" text="Delete" />
         </children>
     </HBox>
 </children>

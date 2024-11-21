@@ -68,7 +68,7 @@ public class UserService {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                int userId = rs.getInt("userId");
+                int userId = rs.getInt("userid");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");

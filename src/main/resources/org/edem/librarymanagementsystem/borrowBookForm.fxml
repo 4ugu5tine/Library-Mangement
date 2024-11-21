@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.BorrowBookController">
+<VBox alignment="TOP_CENTER" prefHeight="389.0" prefWidth="452.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.AddPatronController">
     <children>
-        <VBox spacing="20" alignment="CENTER">
+        <Label prefHeight="56.0" prefWidth="169.0" style="-fx-font-size: 24px; -fx-padding: 10;" text="Borrow Book" textAlignment="CENTER" />
+        <VBox alignment="CENTER" prefHeight="107.0" prefWidth="442.0">
             <children>
-                <Label text="Borrow Book" style="-fx-font-size: 24px;" />
-
-                <GridPane hgap="10" vgap="10" alignment="CENTER">
-                    <children>
-                        <Label text="User ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                        <TextField fx:id="userId_field" promptText="Enter User ID" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-
-                        <Label text="Book ID:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                        <TextField fx:id="bookId_field" promptText="Enter Book ID" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                    </children>
-                </GridPane>
-
-                <Button fx:id="borrowButton" text="Borrow Book" style="-fx-font-size: 14px;" />
+                <Label text="Book ID" />
+                <TextField fx:id="bookid" prefHeight="26.0" prefWidth="332.0" promptText="Book Id" />
+                <Label fx:id="error_name" textFill="RED" />
             </children>
         </VBox>
+        <VBox alignment="CENTER" layoutX="15.0" layoutY="81.0" prefHeight="85.0" prefWidth="442.0">
+            <children>
+                <Label text="Patron ID" />
+                <TextField fx:id="email" prefHeight="26.0" prefWidth="198.0" promptText="Patron's ID" />
+                <Label fx:id="error_email" textFill="RED" />
+            </children>
+        </VBox>
+        <HBox alignment="BOTTOM_CENTER" prefHeight="53.0" prefWidth="442.0" spacing="10.0">
+            <children>
+                <Button fx:id="borrow" mnemonicParsing="false" onMouseClicked="#create" text="Submit" />
+            </children>
+        </HBox>
     </children>
-</StackPane>
-
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+</VBox>

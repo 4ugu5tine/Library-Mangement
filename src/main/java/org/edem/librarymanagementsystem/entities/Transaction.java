@@ -22,7 +22,12 @@ public class Transaction {
         this.isReturned = isReturned;
     }
 
-    public boolean isReturned() {
+    public Transaction( int bookId, int userId) {
+        this.bookId = bookId;
+        this.userId = userId;
+    }
+
+    public boolean isIsReturned() {
         return isReturned;
     }
 

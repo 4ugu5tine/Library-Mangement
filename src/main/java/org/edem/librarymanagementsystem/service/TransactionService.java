@@ -7,6 +7,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+import static java.sql.JDBCType.NULL;
+
 public class TransactionService {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
@@ -22,12 +24,12 @@ public class TransactionService {
              PreparedStatement statement = conn.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
-                int transactionId = rs.getInt("transactionId");
-                int bookId = rs.getInt("bookId");
-                int userId = rs.getInt("userId");
-                LocalDate borrowDate = rs.getDate("borrowDate").toLocalDate();
-                LocalDate returnDate =  rs.getDate("returnDate").toLocalDate();
-                boolean isReturned = rs.getBoolean("isReturned");
+                int transactionId = rs.getInt("transactionid");
+                int bookId = rs.getInt("bookid");
+                int userId = rs.getInt("userid");
+                LocalDate borrowDate = rs.getDate("borrowdate").toLocalDate();
+                LocalDate returnDate =  rs.getDate("returndate") == null ?  null : rs.getDate("returndate").toLocalDate();
+                boolean isReturned = rs.getBoolean("isreturned");
 
                 transactions.add(new Transaction(transactionId,bookId,userId,borrowDate,returnDate,isReturned));
             }
@@ -40,32 +42,27 @@ public class TransactionService {
     public static Transaction borrowBook(int bookId, int userId) {
         String borrowSql = "INSERT INTO transaction (bookId, userId, borrowDate, isReturned) VALUES (?, ?, CURRENT_DATE, false)";
         String updateBookSql = """
-    UPDATE books 
-    SET copies = copies - 1, 
-        isAvailable = CASE WHEN copies - 1 > 0 THEN TRUE ELSE FALSE END 
-    WHERE bookId = ? AND copies > 0
-    """;
+            UPDATE books 
+            SET copies = copies - 1, 
+                isAvailable = CASE WHEN copies - 1 > 0 THEN TRUE ELSE FALSE END 
+            WHERE bookId = ? AND copies > 0
+            """;
 
         Transaction transaction = null;
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             connection.setAutoCommit(false);
 
-            // Insert new transaction
             try (PreparedStatement statement = connection.prepareStatement(borrowSql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setInt(1, bookId);
                 statement.setInt(2, userId);
-                statement.setDate(3, Date.valueOf(LocalDate.now())); // Current date
-                statement.setBoolean(4, false);
 
                 int rowsAffected = statement.executeUpdate();
                 if (rowsAffected > 0) {
-                    // Get the generated transactionId
                     ResultSet generatedKeys = statement.getGeneratedKeys();
                     if (generatedKeys.next()) {
                         int transactionId = generatedKeys.getInt(1);
 
-                        // Create the transaction object
                         transaction = new Transaction(transactionId, bookId, userId, LocalDate.now(), null, false);
                     }
                 }
@@ -112,10 +109,8 @@ public class TransactionService {
                 int bookUpdate = bookStatement.executeUpdate();
 
                 if (transactionUpdate > 0 && bookUpdate > 0) {
-                    // Commit the transaction
                     connection.commit();
 
-                    // Retrieve the transaction details
                     String getTransactionDetails = "SELECT * FROM transactions WHERE transactionId = ?";
                     try (PreparedStatement ps = connection.prepareStatement(getTransactionDetails)) {
                         ps.setInt(1, transactionId);

@@ -51,7 +51,7 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
-    public boolean isAvailable() {
+    public boolean isIsAvailable() {
         return isAvailable;
     }
 

@@ -21,7 +21,7 @@ public class BookService {
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getPublisher());
             statement.setInt(4, book.getYearPublished());
-            statement.setBoolean(5, book.isAvailable());
+            statement.setBoolean(5, book.isIsAvailable());
             statement.setString(6, book.getGenre());
             statement.setInt(7, book.getCopies());
             statement.executeUpdate();
@@ -79,7 +79,7 @@ public class BookService {
                 String author = rs.getString("author");
                 String publisher = rs.getString("publisher");
                 int yearPublished = rs.getInt("year_published");
-                boolean isAvailable = rs.getBoolean("isAvailable");
+                boolean isAvailable = rs.getBoolean("isavailable");
                 int copies = rs.getInt("copies");
 
                 results.add(new Book(
@@ -123,5 +123,23 @@ public class BookService {
             e.printStackTrace();
         }
         return results;
+    }
+
+    public static void deleteBook(int bookId){
+        String sql = "DELETE FROM books WHERE bookId = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, bookId);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Book deleted successfully.");
+            } else {
+                System.out.println("No book found with the given ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

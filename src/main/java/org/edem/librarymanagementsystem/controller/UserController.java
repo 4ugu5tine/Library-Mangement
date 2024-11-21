@@ -41,6 +41,9 @@ public class UserController {
     private TableColumn<User, Integer> column_id;
 
     @FXML
+    private TableColumn<User, String> column_accountType;
+
+    @FXML
     private TableColumn<User, String> column_name;
 
     @FXML
@@ -68,13 +71,14 @@ public class UserController {
 
     @FXML
     public void initialize() {
-        column_id.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
+        column_id.setCellValueFactory(new PropertyValueFactory<User, Integer>("userid"));
         column_name.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
+        column_email.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
         column_email.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
         column_phone.setCellValueFactory(new PropertyValueFactory<User, String>("phone"));
         column_address.setCellValueFactory(new PropertyValueFactory<User, String>("address"));
-//        column_accountType.setCellValueFactory(new PropertyValueFactory<User, String>("accountType"));
-        column_borrowed.setCellValueFactory(new PropertyValueFactory<User, Integer>("borrowedBooks"));
+        column_accountType.setCellValueFactory(new PropertyValueFactory<User, String>("accountType"));
+        column_borrowed.setCellValueFactory(new PropertyValueFactory<User, Integer>("borrowedbooks"));
 
         LinkedList<User> users = UserService.findAllPatrons();
 
