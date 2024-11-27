@@ -19,7 +19,7 @@ public class NavController {
     private VBox content;
 
     @FXML
-    private Label route_addBooks;
+    private Label route_addBook;
 
     @FXML
     private Label route_addBorrowBook;

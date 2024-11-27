@@ -86,6 +86,14 @@ public class Book {
         this.genre = genre;
         this.copies = copies;
     }
+public Book( String title, String author, String publisher, int yearPublished, String genre, int copies) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.yearPublished = yearPublished;
+        this.genre = genre;
+        this.copies = copies;
+    }
 
 
 

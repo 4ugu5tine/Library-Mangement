@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.NavController">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="186.0" spacing="10.0" style="-fx-background-color: beige;">
@@ -14,7 +13,7 @@
             <Label fx:id="route_patrons" layoutX="89.0" layoutY="210.0" onMouseClicked="#navPatrons" text="Patrons" />
             <Label fx:id="route_transactions" layoutX="89.0" layoutY="219.0" onMouseClicked="#navTransactions" text="Transactions" />
             <Label fx:id="route_reservations" layoutX="89.0" layoutY="228.0" onMouseClicked="#navReservations" text="Reservations" />
-            <Label fx:id="route_addBooks" layoutX="89.0" layoutY="236.0" onMouseClicked="#navAddBooks" text="Add Books" />
+            <Label fx:id="route_addBook" layoutX="89.0" layoutY="236.0" onMouseClicked="#navAddBooks" text="Add Books" />
             <Label fx:id="route_addPatron" layoutX="89.0" layoutY="245.0" onMouseClicked="#navAddPatron" text="Add Patron" />
             <Label fx:id="route_addBorrowBook" layoutX="89.0" layoutY="254.0" onMouseClicked="#navAddTransaction" text="Borrow Book" />
             <Label fx:id="route_returnBook" layoutX="89.0" layoutY="254.0" onMouseClicked="#navReturnBook" text="Return Book" />

@@ -7,35 +7,49 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="389.0" prefWidth="452.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.AddPatronController">
+<VBox alignment="TOP_CENTER" prefHeight="389.0" prefWidth="452.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.edem.librarymanagementsystem.controller.AddBookController">
    <children>
-      <Label prefHeight="56.0" prefWidth="169.0" style="-fx-font-size: 24px; -fx-padding: 10;" text="Create Patron" textAlignment="CENTER" />
+      <Label prefHeight="56.0" prefWidth="169.0" style="-fx-font-size: 24px; -fx-padding: 10;" text="Create Book" textAlignment="CENTER" />
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="Name:" />
-            <TextField fx:id="name" prefHeight="26.0" prefWidth="198.0" promptText="Name" />
-            <Label fx:id="error_name" textFill="RED" />
+            <Label text="Title" />
+            <TextField fx:id="title" prefHeight="26.0" prefWidth="198.0" />
+            <Label fx:id="error_title" textFill="RED" />
          </children>
       </VBox>
       <VBox layoutX="15.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="Email" />
-            <TextField fx:id="email" prefHeight="26.0" prefWidth="198.0" promptText="Email" />
-            <Label fx:id="error_email" textFill="RED" />
+            <Label text="Author" />
+            <TextField fx:id="author" prefHeight="26.0" prefWidth="198.0" />
+            <Label fx:id="error_author" textFill="RED" />
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label text="Genre" />
+            <TextField fx:id="genre" prefHeight="26.0" prefWidth="198.0" />
+            <Label fx:id="error_genre" textFill="RED" />
          </children>
       </VBox>
       <VBox layoutX="15.0" layoutY="261.0" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="Phone" />
-            <TextField fx:id="phone" prefHeight="26.0" prefWidth="198.0" promptText="Phone" />
-            <Label fx:id="error_phone" textFill="RED" />
+            <Label id="publisher" text="Publisher" />
+            <TextField fx:id="publisher" prefHeight="26.0" prefWidth="198.0" />
+            <Label fx:id="error_publisher" textFill="RED" />
          </children>
       </VBox>
       <VBox layoutX="15.0" layoutY="309.0" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="Address" />
-            <TextField fx:id="address" prefHeight="26.0" prefWidth="198.0" promptText="Address" />
-            <Label fx:id="error_address" textFill="RED" />
+            <Label text="Year" />
+            <TextField fx:id="year" prefHeight="26.0" prefWidth="198.0" />
+            <Label fx:id="error_year" textFill="RED" />
+         </children>
+      </VBox>
+      <VBox layoutX="15.0" layoutY="356.0" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label text="Copies" />
+            <TextField fx:id="copies" prefHeight="26.0" prefWidth="198.0" />
+            <Label fx:id="error_copies" textFill="RED" />
          </children>
       </VBox>
       <HBox alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="442.0" spacing="10.0">

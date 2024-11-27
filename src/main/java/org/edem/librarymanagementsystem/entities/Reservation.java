@@ -1,6 +1,5 @@
 package org.edem.librarymanagementsystem.entities;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Reservation {

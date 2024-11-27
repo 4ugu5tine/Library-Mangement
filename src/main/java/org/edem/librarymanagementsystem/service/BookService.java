@@ -1,6 +1,7 @@
 package org.edem.librarymanagementsystem.service;
 
 import org.edem.librarymanagementsystem.entities.Book;
+import org.edem.librarymanagementsystem.entities.Genre;
 import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 
@@ -11,19 +12,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import static java.lang.Boolean.TRUE;
+
 public class BookService {
 
-    public static void addBook(Book book) throws SQLException {
-        String sql = "INSERT INTO books (title, author, publisher, yearPublished, isAvailable, genre,copies) VALUES (?, ?, ?, ?, TRUE,?, 0)";
+    public static void addBook( String title, String author, String publisher, int yearPublished, String genre, int copies) throws SQLException {
+        String sql = "INSERT INTO books (title, author, publisher, yearPublished,isAvailable, genre,copies ) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getAuthor());
-            statement.setString(3, book.getPublisher());
-            statement.setInt(4, book.getYearPublished());
-            statement.setBoolean(5, book.isIsAvailable());
-            statement.setString(6, book.getGenre());
-            statement.setInt(7, book.getCopies());
+            statement.setString(1, title);
+            statement.setString(2,author);
+            statement.setString(3,publisher);
+            statement.setInt(4, yearPublished);
+            statement.setBoolean(5,TRUE);
+            statement.setString(6, genre);
+            statement.setInt(7, copies);
             statement.executeUpdate();
         }
     }
