@@ -52,7 +52,7 @@ public class MakeReservationController {
 
 
             ReservationService.createReservation(Integer.parseInt(patronid.getText()), Integer.parseInt(bookid.getText()), date.getValue());
-            App.setRoot("reservations");
+            App.setRoot("layout");
         }
     }
 

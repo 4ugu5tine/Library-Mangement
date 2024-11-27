@@ -145,4 +145,32 @@ public class BookService {
         }
 
     }
+
+    public static void updateBook(int bookId, String title, String author, int yearPublished, String genre, int copies) throws SQLException {
+        String sql = """
+        UPDATE books
+        SET title = ?, author = ?, publisher   = ?, yearPublished = ?, genre = ?, copies = ?
+        WHERE bookId = ?
+    """;
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, title);
+            statement.setString(2, author);
+//            statement.setString(3, publisher);
+            statement.setInt(3, yearPublished);
+            statement.setString(4, genre);
+            statement.setInt(5, copies);
+            statement.setInt(6, bookId);
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Book updated successfully.");
+            } else {
+                System.out.println("No book found with the given ID.");
+            }
+        }
+    }
+
 }

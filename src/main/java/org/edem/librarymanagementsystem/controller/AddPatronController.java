@@ -61,7 +61,7 @@ public class AddPatronController {
             error_phone.setText("");
 
             UserService.createPatron(name.getText(), email.getText(), phone.getText(),address.getText());
-            App.setRoot("patron");
+            App.setRoot("layout");
         }
     }
 

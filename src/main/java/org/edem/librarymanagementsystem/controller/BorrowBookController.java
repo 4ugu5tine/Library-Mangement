@@ -40,7 +40,7 @@ public class BorrowBookController {
             error_patronid.setText("");
 
             TransactionService.borrowBook(Integer.parseInt(bookid.getText()),Integer.parseInt(patronId.getText()));
-            App.setRoot("transactions");
+            App.setRoot("layout");
         }
     }
 

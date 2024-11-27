@@ -40,7 +40,7 @@ public class ReturnBookController {
             error_bookid.setText("");
 
             TransactionService.returnBook(Integer.parseInt(transactionid.getText()),Integer.parseInt(bookid.getText()));
-            App.setRoot("transactions");
+            App.setRoot("layout");
         }
     }
 

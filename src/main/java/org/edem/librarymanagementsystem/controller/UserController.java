@@ -13,7 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import org.edem.librarymanagementsystem.entities.Book;
 import org.edem.librarymanagementsystem.entities.User;
 import org.edem.librarymanagementsystem.service.UserService;
 
@@ -71,14 +70,14 @@ public class UserController {
 
     @FXML
     public void initialize() {
-        column_id.setCellValueFactory(new PropertyValueFactory<User, Integer>("userid"));
+        column_id.setCellValueFactory(new PropertyValueFactory<User, Integer>("userId"));
         column_name.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         column_email.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
         column_email.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
         column_phone.setCellValueFactory(new PropertyValueFactory<User, String>("phone"));
         column_address.setCellValueFactory(new PropertyValueFactory<User, String>("address"));
         column_accountType.setCellValueFactory(new PropertyValueFactory<User, String>("accountType"));
-        column_borrowed.setCellValueFactory(new PropertyValueFactory<User, Integer>("borrowedbooks"));
+        column_borrowed.setCellValueFactory(new PropertyValueFactory<User, Integer>("borrowedBooks"));
 
         LinkedList<User> users = UserService.findAllPatrons();
 

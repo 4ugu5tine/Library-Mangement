@@ -85,7 +85,7 @@ public class TransactionService {
 
 
     public static Transaction returnBook(int transactionId, int bookId) {
-        String returnSql = "UPDATE transactions SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?";
+        String returnSql = "UPDATE transaction SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?";
         String updateBookQuery = """
         UPDATE books 
         SET copies = copies + 1, 
@@ -111,7 +111,7 @@ public class TransactionService {
                 if (transactionUpdate > 0 && bookUpdate > 0) {
                     connection.commit();
 
-                    String getTransactionDetails = "SELECT * FROM transactions WHERE transactionId = ?";
+                    String getTransactionDetails = "SELECT * FROM transaction WHERE transactionId = ?";
                     try (PreparedStatement ps = connection.prepareStatement(getTransactionDetails)) {
                         ps.setInt(1, transactionId);
                         ResultSet resultSet = ps.executeQuery();
