@@ -25,11 +25,12 @@ public class BorrowBookController {
     private Label error_patronid;
 
     @FXML
-    private TextField patronId;
+    private TextField patronid;
+
 
     @FXML
     void borrow(MouseEvent event) throws IOException {
-        if(patronId.getText().isEmpty()){
+        if(patronid.getText().isEmpty()){
             error_patronid.setText("Patron Id cannot be empty");
         }
         else if(bookid.getText().isEmpty()){
@@ -39,7 +40,7 @@ public class BorrowBookController {
             error_bookid.setText("");
             error_patronid.setText("");
 
-            TransactionService.borrowBook(Integer.parseInt(bookid.getText()),Integer.parseInt(patronId.getText()));
+            TransactionService.borrowBook(Integer.parseInt(bookid.getText()),Integer.parseInt(patronid.getText()));
             App.setRoot("layout");
         }
     }
