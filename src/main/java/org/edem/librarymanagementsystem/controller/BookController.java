@@ -18,6 +18,7 @@ import org.edem.librarymanagementsystem.entities.Book;
 import org.edem.librarymanagementsystem.service.BookService;
 
 public class BookController {
+    private final BookService bookService = new BookService();
 
     @FXML
     private ResourceBundle resources;
@@ -60,7 +61,7 @@ public class BookController {
 
     @FXML
     void delete_book(MouseEvent event) {
-        BookService.deleteBook(book_table.getSelectionModel().getSelectedItem().getBookId());
+        bookService.deleteBook(book_table.getSelectionModel().getSelectedItem().getBookId());
     }
 
     @FXML
@@ -76,7 +77,7 @@ public class BookController {
             selectedBook.setCopies(Integer.parseInt(column_copies.getText()));
 
 
-            BookService.updateBook(Integer.parseInt(column_id.getText()) , column_title.getText(),column_author.getText(),Integer.parseInt(column_year.getText()) , column_genre.getText(), Integer.parseInt(column_copies.getText()));
+            bookService.updateBook(Integer.parseInt(column_id.getText()) , column_title.getText(),column_author.getText(),Integer.parseInt(column_year.getText()) , column_genre.getText(), Integer.parseInt(column_copies.getText()));
         }
     }
 
@@ -95,7 +96,7 @@ public class BookController {
 //        column_publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
 
 
-        LinkedList<Book> books  = BookService.getAllBooks();
+        LinkedList<Book> books  = bookService.getAllBooks();
 
         bookList.addAll(books);
 

@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class TransactionController {
+    private final TransactionService transactionService = new TransactionService();
 
     @FXML
     private TableView<Transaction> transaction_table;
@@ -48,7 +49,7 @@ public class TransactionController {
         column_returnDate.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
         column_isReturned.setCellValueFactory(new PropertyValueFactory<>("isReturned"));
 
-        LinkedList<Transaction> transactions = TransactionService.getAllTransactions();
+        LinkedList<Transaction> transactions = transactionService.getAllTransactions();
         transactionList.addAll(transactions);
         transaction_table.setItems(transactionList);
     }

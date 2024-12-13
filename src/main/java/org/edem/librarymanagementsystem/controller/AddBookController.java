@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class AddBookController {
+    private final BookService bookService = new BookService();
 
     @FXML
     private TextField author;
@@ -81,7 +82,7 @@ public class AddBookController {
             error_year.setText("");
             error_copies.setText("");
 
-            BookService.addBook(title.getText(), author.getText(),publisher.getText(),Integer.parseInt(year.getText()),genre.getText(),Integer.parseInt(copies.getText()));
+            bookService.addBook(title.getText(), author.getText(),publisher.getText(),Integer.parseInt(year.getText()),genre.getText(),Integer.parseInt(copies.getText()));
             App.setRoot("layout");
         }
     }

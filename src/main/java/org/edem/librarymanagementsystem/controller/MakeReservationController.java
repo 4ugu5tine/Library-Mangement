@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class MakeReservationController {
+    private final ReservationService reservationService = new ReservationService();
 
     @FXML
     private TextField bookid;
@@ -51,7 +52,7 @@ public class MakeReservationController {
             error_date.setText("");
 
 
-            ReservationService.createReservation(Integer.parseInt(patronid.getText()), Integer.parseInt(bookid.getText()), date.getValue());
+            reservationService.createReservation(Integer.parseInt(patronid.getText()), Integer.parseInt(bookid.getText()), date.getValue());
             App.setRoot("layout");
         }
     }

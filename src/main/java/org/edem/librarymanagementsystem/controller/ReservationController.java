@@ -18,6 +18,7 @@ import org.edem.librarymanagementsystem.service.ReservationService;
 
 public class ReservationController {
 
+    private ReservationService reservationService =  new ReservationService();
     @FXML
     private ResourceBundle resources;
 
@@ -62,7 +63,7 @@ public class ReservationController {
         column_userId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("userId"));
         column_bookId.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("bookId"));
 
-        LinkedList<Reservation> reservations = ReservationService.getAllReservations();
+        LinkedList<Reservation> reservations = reservationService.getAllReservations();
 
         reservationList.addAll(reservations);
 

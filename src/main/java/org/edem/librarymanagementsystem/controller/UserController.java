@@ -17,6 +17,7 @@ import org.edem.librarymanagementsystem.entities.User;
 import org.edem.librarymanagementsystem.service.UserService;
 
 public class UserController {
+    UserService userService = new UserService();
 
     @FXML
     private ResourceBundle resources;
@@ -79,7 +80,8 @@ public class UserController {
         column_accountType.setCellValueFactory(new PropertyValueFactory<User, String>("accountType"));
         column_borrowed.setCellValueFactory(new PropertyValueFactory<User, Integer>("borrowedBooks"));
 
-        LinkedList<User> users = UserService.findAllPatrons();
+
+        LinkedList<User> users = userService.findAllPatrons();
 
         userList.addAll(users);
         user_table.setItems(userList);

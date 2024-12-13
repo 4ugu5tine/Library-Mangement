@@ -12,6 +12,7 @@ import org.edem.librarymanagementsystem.service.UserService;
 import java.io.IOException;
 
 public class AuthController {
+    private final UserService userService = new UserService();
 
     @FXML
     private TextField email_field;
@@ -38,9 +39,9 @@ public class AuthController {
             return;
         }
 
-        User user = UserService.login(email,password);
+        boolean user = userService.login(email,password);
 
-        if(user == null){
+        if(!user){
             showAlert("Validation Error", "Email or password incorrect");
         } else {
             App.setRoot("layout");

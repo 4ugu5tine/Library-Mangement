@@ -11,16 +11,13 @@ import static java.sql.JDBCType.NULL;
 
 public class TransactionService {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "work";
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
-
-    public static LinkedList<Transaction> getAllTransactions() {
+    public  LinkedList<Transaction> getAllTransactions() {
         String sql = "SELECT * FROM transaction";
         LinkedList<Transaction> transactions = new LinkedList<>();
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
@@ -39,7 +36,7 @@ public class TransactionService {
         return transactions;
     }
 
-    public static Transaction borrowBook(int bookId, int userId) {
+    public Transaction borrowBook(int bookId, int userId) {
         String borrowSql = "INSERT INTO transaction (bookId, userId, borrowDate, isReturned) VALUES (?, ?, CURRENT_DATE, false)";
         String updateBookSql = """
             UPDATE books 
@@ -50,7 +47,7 @@ public class TransactionService {
 
         Transaction transaction = null;
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+        try (Connection connection = databaseConnection.getConnection()) {
             connection.setAutoCommit(false);
 
             try (PreparedStatement statement = connection.prepareStatement(borrowSql, Statement.RETURN_GENERATED_KEYS)) {
@@ -84,7 +81,7 @@ public class TransactionService {
     }
 
 
-    public static Transaction returnBook(int transactionId, int bookId) {
+    public Transaction returnBook(int transactionId, int bookId) {
         String returnSql = "UPDATE transaction SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?";
         String updateBookQuery = """
         UPDATE books 
@@ -95,7 +92,7 @@ public class TransactionService {
 
         Transaction transaction = null;
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        try (Connection connection = databaseConnection.getConnection()) {
             connection.setAutoCommit(false);
 
             // Prepare statements
