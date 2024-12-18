@@ -8,7 +8,6 @@ module org.edem.librarymanagementsystem {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-//    requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires org.postgresql.jdbc;
@@ -21,5 +20,4 @@ module org.edem.librarymanagementsystem {
     exports org.edem.librarymanagementsystem.utils;
     opens org.edem.librarymanagementsystem.utils to javafx.fxml;
     exports org.edem.librarymanagementsystem.controller;
-
 }

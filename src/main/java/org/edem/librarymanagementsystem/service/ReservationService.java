@@ -10,8 +10,14 @@ import java.util.LinkedList;
 public class ReservationService {
     private DatabaseConnection databaseConnection = new DatabaseConnection();
 
+    public ReservationService(DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
 
-    public void createReservation(int userId, int bookId, LocalDate date) {
+    public ReservationService() {
+    }
+
+    public void createReservation(int userId, int bookId, Date date) {
         String sql = """
                 INSERT INTO reservation (userId, bookId, date)
                 VALUES (?,?,?)
@@ -21,7 +27,7 @@ public class ReservationService {
 
             stmt.setInt(1, userId);
             stmt.setInt(2, bookId);
-            stmt.setDate(3, new Date(System.currentTimeMillis()));
+            stmt.setDate(3, date);
 
             stmt.executeUpdate();
             System.out.println("Reservation created");
