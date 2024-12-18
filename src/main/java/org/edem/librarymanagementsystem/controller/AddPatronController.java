@@ -10,8 +10,10 @@ import org.edem.librarymanagementsystem.entities.User;
 import org.edem.librarymanagementsystem.service.UserService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class AddPatronController {
+    private final UserService userService = new UserService();
 
     @FXML
     private TextField address;
@@ -41,7 +43,7 @@ public class AddPatronController {
     private TextField phone;
 
     @FXML
-    void create(MouseEvent event) throws IOException {
+    void create(MouseEvent event) throws IOException, SQLException {
         if(name.getText().isEmpty()){
             error_name.setText("Name is required");
         }
@@ -60,7 +62,7 @@ public class AddPatronController {
             error_address.setText("");
             error_phone.setText("");
 
-            UserService.createPatron(name.getText(), email.getText(), phone.getText(),address.getText());
+            userService.createPatron(name.getText(), email.getText(), phone.getText(),address.getText());
             App.setRoot("layout");
         }
     }

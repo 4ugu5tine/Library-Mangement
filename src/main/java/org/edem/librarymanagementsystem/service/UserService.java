@@ -1,7 +1,9 @@
 package org.edem.librarymanagementsystem.service;
 
 
+import lombok.Generated;
 import org.edem.librarymanagementsystem.entities.User;
+import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,18 +11,24 @@ import java.util.LinkedList;
 
 
 public class UserService {
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "work";
+    public UserService(DatabaseConnection connection){
+        this.databaseConnection = connection;
+    }
 
-    public static void createLibrarian(String name, String email, String phone, String address, String password) {
+
+    @Generated
+    public UserService() {
+    }
+
+    public boolean createLibrarian(String name, String email, String phone, String address, String password) {
         String sql = """
             INSERT INTO users (name, email, phone, address, password, accountType) 
             VALUES (?, ?, ?, ?,'Librarian', 0)
         """;
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, name);
@@ -31,19 +39,21 @@ public class UserService {
 
             stmt.executeUpdate();
             System.out.println("Librarian created successfully");
-
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public static void createPatron(String name, String email, String phone,String address) {
+    public boolean createPatron(String name, String email, String phone, String address) {
         String sql = """
             INSERT INTO users (name, email, phone, address, accountType, borrowedBooks)
-            VALUES (?, ?, ?,?, 'Patron', 0)
+            VALUES (?, ?, ?, ?, 'Patron', 0)
         """;
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, name);
@@ -51,19 +61,19 @@ public class UserService {
             stmt.setString(3, phone);
             stmt.setString(4, address);
 
-            stmt.executeUpdate();
-            System.out.println("Patron created successfully.");
-
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public static LinkedList<User> findAllPatrons() {
+    public LinkedList<User> findAllPatrons() {
         String sql = "SELECT * FROM users WHERE accountType = 'Patron'";
         LinkedList<User> users = new LinkedList<>();
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -87,11 +97,11 @@ public class UserService {
         return users;
     }
 
-    public static User findUserById(int userId) {
+    public User findUserById(int userId) {
         String sql = "SELECT * FROM users WHERE userId = ?";
         User user = null;
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
@@ -118,10 +128,10 @@ public class UserService {
     }
 
 
-    public static void deleteUser(int userId) {
+    public void deleteUser(int userId) {
         String sql = "DELETE FROM users WHERE userId = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
@@ -137,11 +147,12 @@ public class UserService {
             e.printStackTrace();
         }
     }
-    public static LinkedList<User> findUsersByName(String name) {
+
+    public LinkedList<User> findUsersByName(String name) {
         String sql = "SELECT * FROM users WHERE name ILIKE ?";
         LinkedList<User> users = new LinkedList<>();
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, "%" + name + "%");
@@ -168,39 +179,27 @@ public class UserService {
 
 
 
-    public static User login(String email, String password) {
+    public boolean login(String email, String password) {
         String sql = """
-        SELECT userid, name, email, phone, address, accounttype, borrowedbooks 
-        FROM users 
-        WHERE email = ? 
-        AND password = ? 
-        AND accounttype = 'Librarian'
+    SELECT userid FROM users 
+    WHERE email = ? 
+    AND password = ? 
+    AND accounttype = 'Librarian'
     """;
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                return new User(
-                        rs.getInt("userid"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("address"),
-                        rs.getString("accounttype"),
-                        rs.getInt("borrowedbooks")
-                );
-            }
-
-            return null ;
+            return rs.next();
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
     }
+
 }

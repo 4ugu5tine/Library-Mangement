@@ -28,10 +28,6 @@ public class User {
     }
 
 
-    public int getUserId() {
-        return userId;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -91,5 +87,10 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public int getUserid() {
+        return userId;
+    }
+
 }
 

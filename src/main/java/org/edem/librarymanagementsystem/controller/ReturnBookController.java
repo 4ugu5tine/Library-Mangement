@@ -11,6 +11,7 @@ import org.edem.librarymanagementsystem.service.TransactionService;
 import java.io.IOException;
 
 public class ReturnBookController {
+    private final TransactionService transactionService = new TransactionService();
 
     @FXML
     private TextField bookid;
@@ -39,7 +40,7 @@ public class ReturnBookController {
             error_transactionid.setText("");
             error_bookid.setText("");
 
-            TransactionService.returnBook(Integer.parseInt(transactionid.getText()),Integer.parseInt(bookid.getText()));
+            transactionService.returnBook(Integer.parseInt(transactionid.getText()),Integer.parseInt(bookid.getText()));
             App.setRoot("layout");
         }
     }

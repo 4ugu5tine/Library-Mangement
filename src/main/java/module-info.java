@@ -12,6 +12,9 @@ module org.edem.librarymanagementsystem {
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires org.postgresql.jdbc;
+    requires static lombok;
+//    requires org.junit.jupiter.api;
+
 
     opens org.edem.librarymanagementsystem to javafx.fxml;
     exports org.edem.librarymanagementsystem;
@@ -19,7 +22,8 @@ module org.edem.librarymanagementsystem {
     opens org.edem.librarymanagementsystem.controller;
     opens org.edem.librarymanagementsystem.entities to javafx.fxml;
     exports org.edem.librarymanagementsystem.utils;
-    opens org.edem.librarymanagementsystem.utils to javafx.fxml;
     exports org.edem.librarymanagementsystem.controller;
+    opens org.edem.librarymanagementsystem.service to org.junit.platform.commons;
+    opens org.edem.librarymanagementsystem.utils to org.junit.platform.commons, javafx.fxml;
 
 }

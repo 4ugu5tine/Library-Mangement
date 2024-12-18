@@ -4,16 +4,17 @@ import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Transaction {
     private int transactionId;
     private int bookId;
     private int userId;
     private LocalDate borrowDate;
-    private LocalDate returnDate;
+    private Date returnDate;
     private boolean isReturned;
 
-    public Transaction(int transactionId, int bookId, int userId, LocalDate borrowDate, LocalDate returnDate, boolean isReturned) {
+    public Transaction(int transactionId, int bookId, int userId, LocalDate borrowDate, Date returnDate, boolean isReturned) {
         this.transactionId = transactionId;
         this.bookId = bookId;
         this.userId = userId;
@@ -35,11 +36,11 @@ public class Transaction {
         isReturned = returned;
     }
 
-    public LocalDate getReturnDate() {
+    public Date getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
+    public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
 
@@ -73,5 +74,9 @@ public class Transaction {
 
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public boolean isReturned() {
+        return isReturned;
     }
 }

@@ -8,17 +8,15 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class ReservationService {
-    private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "work";
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
 
-    public static void createReservation(int userId, int bookId, LocalDate date) {
+    public void createReservation(int userId, int bookId, LocalDate date) {
         String sql = """
                 INSERT INTO reservation (userId, bookId, date)
                 VALUES (?,?,?)
         """;
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
@@ -33,11 +31,11 @@ public class ReservationService {
         }
     }
 
-        public static LinkedList<Reservation> getAllReservations () {
+        public  LinkedList<Reservation> getAllReservations () {
             String sql = "SELECT  * FROM reservation ORDER BY date ASC";
             LinkedList<Reservation> reservations = new LinkedList<>();
 
-            try (Connection conn = DatabaseConnection.getConnection();
+            try (Connection conn = databaseConnection.getConnection();
                  PreparedStatement statement = conn.prepareStatement(sql);
                  ResultSet rs = statement.executeQuery()) {
 

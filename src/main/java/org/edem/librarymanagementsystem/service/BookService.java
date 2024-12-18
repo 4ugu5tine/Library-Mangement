@@ -1,7 +1,7 @@
 package org.edem.librarymanagementsystem.service;
 
+import lombok.Generated;
 import org.edem.librarymanagementsystem.entities.Book;
-import org.edem.librarymanagementsystem.entities.Genre;
 import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 
@@ -15,10 +15,19 @@ import java.util.LinkedList;
 import static java.lang.Boolean.TRUE;
 
 public class BookService {
+    private DatabaseConnection databaseConnection = new DatabaseConnection() ;
 
-    public static void addBook( String title, String author, String publisher, int yearPublished, String genre, int copies) throws SQLException {
+    public BookService(DatabaseConnection mockDatabaseConnection) {
+        this.databaseConnection = mockDatabaseConnection;
+    }
+
+    @Generated
+    public BookService() {
+    }
+
+    public void addBook(String title, String author, String publisher, int yearPublished, String genre, int copies) throws SQLException {
         String sql = "INSERT INTO books (title, author, publisher, yearPublished,isAvailable, genre,copies ) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, title);
             statement.setString(2,author);
@@ -31,9 +40,9 @@ public class BookService {
         }
     }
 
-    public static Book getBookById(int bookId) throws SQLException {
+    public  Book getBookById(int bookId) throws SQLException {
         String sql = "SELECT * FROM books WHERE bookId = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, bookId);
             ResultSet rs = stmt.executeQuery();
@@ -56,7 +65,8 @@ public class BookService {
         return null;
 
     }
-    public static LinkedList<Book> searchBooks(String query) {
+
+    public  LinkedList<Book> searchBooks(String query) {
         String sql = """
         SELECT * FROM books 
         WHERE LOWER(title) LIKE LOWER(?) 
@@ -64,19 +74,19 @@ public class BookService {
     """;
         LinkedList<Book> results = new LinkedList<>();
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
 
             String searchPattern = "%" + query + "%";
 
 
-            statement.setString(1, searchPattern);  // title
-            statement.setString(2, searchPattern);  // author
+            statement.setString(1, searchPattern);
+            statement.setString(2, searchPattern);
 
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                int bookId = rs.getInt("bookId");  // assuming snake_case in database
+                int bookId = rs.getInt("bookId");
                 String title = rs.getString("title");
                 String genreId = rs.getString("genre");
                 String author = rs.getString("author");
@@ -103,11 +113,11 @@ public class BookService {
     }
 
 
-    public static LinkedList<Book> getAllBooks() {
+    public LinkedList<Book> getAllBooks() {
         String sql = "SELECT * FROM books";
         LinkedList<Book> results = new LinkedList<>();
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
@@ -128,13 +138,14 @@ public class BookService {
         return results;
     }
 
-    public static void deleteBook(int bookId){
+    public  void deleteBook(int bookId){
         String sql = "DELETE FROM books WHERE bookId = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, bookId);
             int rowsAffected = stmt.executeUpdate();
+
             if (rowsAffected > 0) {
                 System.out.println("Book deleted successfully.");
             } else {
@@ -146,26 +157,25 @@ public class BookService {
 
     }
 
-    public static void updateBook(int bookId, String title, String author, int yearPublished, String genre, int copies) throws SQLException {
+    public void updateBook(int bookId, String title, String author, int yearPublished, String genre, int copies) throws SQLException {
         String sql = """
         UPDATE books
-        SET title = ?, author = ?, publisher   = ?, yearPublished = ?, genre = ?, copies = ?
+        SET title = ?, author = ?, yearPublished = ?, genre = ?, copies = ?
         WHERE bookId = ?
     """;
 
-        try (Connection connection = DatabaseConnection.getConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, title);
             statement.setString(2, author);
-//            statement.setString(3, publisher);
             statement.setInt(3, yearPublished);
             statement.setString(4, genre);
             statement.setInt(5, copies);
             statement.setInt(6, bookId);
 
             int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
+            if (rowsUpdated < 1) {
                 System.out.println("Book updated successfully.");
             } else {
                 System.out.println("No book found with the given ID.");

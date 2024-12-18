@@ -1,26 +1,32 @@
 package org.edem.librarymanagementsystem.service;
 
+import lombok.Generated;
 import org.edem.librarymanagementsystem.entities.Transaction;
 import org.edem.librarymanagementsystem.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
 
-import static java.sql.JDBCType.NULL;
 
 public class TransactionService {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/libraryDB";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "work";
+    private DatabaseConnection databaseConnection = new DatabaseConnection();
 
+    @Generated
+    public TransactionService  (){
+    }
 
-    public static LinkedList<Transaction> getAllTransactions() {
+    public TransactionService(DatabaseConnection mockDatabaseConnection) {
+        this.databaseConnection = mockDatabaseConnection;
+    }
+
+    public  LinkedList<Transaction> getAllTransactions() {
         String sql = "SELECT * FROM transaction";
         LinkedList<Transaction> transactions = new LinkedList<>();
 
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql);
              ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
@@ -28,7 +34,7 @@ public class TransactionService {
                 int bookId = rs.getInt("bookid");
                 int userId = rs.getInt("userid");
                 LocalDate borrowDate = rs.getDate("borrowdate").toLocalDate();
-                LocalDate returnDate =  rs.getDate("returndate") == null ?  null : rs.getDate("returndate").toLocalDate();
+                Date returnDate = rs.getDate("returndate");
                 boolean isReturned = rs.getBoolean("isreturned");
 
                 transactions.add(new Transaction(transactionId,bookId,userId,borrowDate,returnDate,isReturned));
@@ -39,7 +45,7 @@ public class TransactionService {
         return transactions;
     }
 
-    public static Transaction borrowBook(int bookId, int userId) {
+    public Transaction borrowBook(int bookId, int userId) {
         String borrowSql = "INSERT INTO transaction (bookId, userId, borrowDate, isReturned) VALUES (?, ?, CURRENT_DATE, false)";
         String updateBookSql = """
             UPDATE books 
@@ -50,7 +56,7 @@ public class TransactionService {
 
         Transaction transaction = null;
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+        try (Connection connection = databaseConnection.getConnection()) {
             connection.setAutoCommit(false);
 
             try (PreparedStatement statement = connection.prepareStatement(borrowSql, Statement.RETURN_GENERATED_KEYS)) {
@@ -68,7 +74,6 @@ public class TransactionService {
                 }
             }
 
-            // Update the book's availability
             try (PreparedStatement statement = connection.prepareStatement(updateBookSql)) {
                 statement.setInt(1, bookId);
                 statement.executeUpdate();
@@ -84,7 +89,7 @@ public class TransactionService {
     }
 
 
-    public static Transaction returnBook(int transactionId, int bookId) {
+    public Transaction returnBook(int transactionId, int bookId) {
         String returnSql = "UPDATE transaction SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?";
         String updateBookQuery = """
         UPDATE books 
@@ -95,7 +100,7 @@ public class TransactionService {
 
         Transaction transaction = null;
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        try (Connection connection = databaseConnection.getConnection()) {
             connection.setAutoCommit(false);
 
             // Prepare statements
@@ -121,7 +126,7 @@ public class TransactionService {
                             int bookIdFetched = resultSet.getInt("bookId");
                             int userIdFetched = resultSet.getInt("userId");
                             LocalDate borrowDate = resultSet.getDate("borrowDate").toLocalDate();
-                            LocalDate returnDate = resultSet.getDate("returnDate") != null ? resultSet.getDate("returnDate").toLocalDate() : null;
+                            Date returnDate = resultSet.getDate("returnDate");
                             boolean isReturned = resultSet.getBoolean("isReturned");
 
                             // Create the transaction object
