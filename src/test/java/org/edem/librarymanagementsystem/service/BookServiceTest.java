@@ -178,7 +178,5 @@ class BookServiceTest {
         verify(mockPreparedStatement).setInt(6, 1);
         verify(mockPreparedStatement).executeUpdate();
 
-
-
     }
 }

@@ -1,14 +1,15 @@
 package org.edem.librarymanagementsystem.entities;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Reservation {
     private int reservationId;
     private int userId;
     private int bookId;
-    private LocalDate date;
+    private Date date;
 
-    public Reservation(int reservationId, int userId, int bookId, LocalDate date) {
+    public Reservation(int reservationId, int userId, int bookId, Date date) {
         this.reservationId = reservationId;
         this.userId = userId;
         this.bookId = bookId;
@@ -39,11 +40,11 @@ public class Reservation {
         this.bookId = bookId;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

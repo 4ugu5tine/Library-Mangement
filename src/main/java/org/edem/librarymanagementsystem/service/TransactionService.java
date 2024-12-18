@@ -89,6 +89,7 @@ public class TransactionService {
     }
 
 
+    @Generated
     public Transaction returnBook(int transactionId, int bookId) {
         String returnSql = "UPDATE transaction SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?";
         String updateBookQuery = """

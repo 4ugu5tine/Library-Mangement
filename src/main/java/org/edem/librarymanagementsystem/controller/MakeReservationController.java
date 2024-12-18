@@ -10,6 +10,7 @@ import org.edem.librarymanagementsystem.App;
 import org.edem.librarymanagementsystem.service.ReservationService;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class MakeReservationController {
@@ -52,7 +53,7 @@ public class MakeReservationController {
             error_date.setText("");
 
 
-            reservationService.createReservation(Integer.parseInt(patronid.getText()), Integer.parseInt(bookid.getText()), date.getValue());
+            reservationService.createReservation(Integer.parseInt(patronid.getText()), Integer.parseInt(bookid.getText()), Date.valueOf(date.getValue()));
             App.setRoot("layout");
         }
     }

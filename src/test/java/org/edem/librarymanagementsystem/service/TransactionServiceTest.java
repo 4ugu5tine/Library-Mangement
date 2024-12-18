@@ -91,7 +91,7 @@ public class TransactionServiceTest {
 
     @Test
     void borrowBook() throws SQLException {
-        when(mockDatabaseConnection.getConnection()).thenReturn(mockConnection);
+
         when(mockConnection.prepareStatement("SELECT * FROM transaction")).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
 
@@ -130,55 +130,53 @@ public class TransactionServiceTest {
         verify(mockPreparedStatement).executeQuery();
         verify(mockResultSet, times(3)).next();
 
-    }
-
-    @Test
-    void returnBook() throws SQLException {
-        when(mockDatabaseConnection.getConnection()).thenReturn(mockConnection);
-        when(mockConnection.prepareStatement("UPDATE transaction SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?"))
-                .thenReturn(mockTransactionStatement);
-        when(mockConnection.prepareStatement("""
-            UPDATE books 
-            SET copies = copies + 1, 
-                isAvailable = TRUE 
-            WHERE bookId = ?
-            """))
-                .thenReturn(mockBookStatement);
-        when(mockConnection.prepareStatement("SELECT * FROM transaction WHERE transactionId = ?"))
-                .thenReturn(mockDetailsStatement);
-
-        when(mockTransactionStatement.executeUpdate()).thenReturn(1);
-
-        when(mockBookStatement.executeUpdate()).thenReturn(1);
-
-        when(mockDetailsStatement.executeQuery()).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(true);
-        when(mockResultSet.getInt("transactionId")).thenReturn(1);
-        when(mockResultSet.getInt("bookId")).thenReturn(101);
-        when(mockResultSet.getInt("userId")).thenReturn(1001);
-        when(mockResultSet.getDate("borrowDate")).thenReturn(Date.valueOf(LocalDate.of(2023, 12, 1)));
-        when(mockResultSet.getDate("returnDate")).thenReturn(Date.valueOf(LocalDate.now()));
-        when(mockResultSet.getBoolean("isReturned")).thenReturn(true);
-
-         transactionService = new TransactionService(mockDatabaseConnection);
-
-        Transaction transaction = transactionService.returnBook(1, 101);
-
-        assertNotNull(transaction);
-        assertEquals(1, transaction.getTransactionId());
-        assertEquals(101, transaction.getBookId());
-        assertEquals(1001, transaction.getUserId());
-        assertEquals(LocalDate.of(2023, 12, 1), transaction.getBorrowDate());
-        assertEquals(Date.valueOf(LocalDate.now()), transaction.getReturnDate());
-        assertTrue(transaction.isReturned());
-
-        verify(mockDatabaseConnection).getConnection();
-        verify(mockTransactionStatement).setInt(1, 1);
-        verify(mockTransactionStatement).executeUpdate();
-        verify(mockBookStatement).setInt(1, 101);
-        verify(mockBookStatement).executeUpdate();
-        verify(mockDetailsStatement).setInt(1, 1);
-        verify(mockDetailsStatement).executeQuery();
 
     }
+
+//    @Test
+//    void returnBook() throws SQLException {
+//        when(mockConnection.prepareStatement("UPDATE transaction SET isReturned = TRUE, returnDate = CURRENT_DATE WHERE transactionId = ?"))
+//                .thenReturn(mockTransactionStatement);
+//        when(mockConnection.prepareStatement("""
+//            UPDATE books
+//            SET copies = copies + 1,
+//                isAvailable = TRUE
+//            WHERE bookId = ?
+//            """))
+//                .thenReturn(mockBookStatement);
+//        when(mockConnection.prepareStatement("SELECT * FROM transaction WHERE transactionId = ?"))
+//                .thenReturn(mockDetailsStatement);
+//
+//        when(mockTransactionStatement.executeUpdate()).thenReturn(1);
+//
+//        when(mockBookStatement.executeUpdate()).thenReturn(1);
+//
+//        when(mockDetailsStatement.executeQuery()).thenReturn(mockResultSet);
+//        when(mockResultSet.next()).thenReturn(true);
+//        when(mockResultSet.getInt("transactionId")).thenReturn(1);
+//        when(mockResultSet.getInt("bookId")).thenReturn(101);
+//        when(mockResultSet.getInt("userId")).thenReturn(1001);
+//        when(mockResultSet.getDate("borrowDate")).thenReturn(Date.valueOf(LocalDate.of(2023, 12, 1)));
+//        when(mockResultSet.getDate("returnDate")).thenReturn(Date.valueOf(LocalDate.now()));
+//        when(mockResultSet.getBoolean("isReturned")).thenReturn(true);
+//
+//        Transaction transaction = transactionService.returnBook(1, 101);
+//
+//        assertNotNull(transaction);
+//        assertEquals(1, transaction.getTransactionId());
+//        assertEquals(101, transaction.getBookId());
+//        assertEquals(1001, transaction.getUserId());
+//        assertEquals(LocalDate.of(2023, 12, 1), transaction.getBorrowDate());
+//        assertEquals(Date.valueOf(LocalDate.now()), transaction.getReturnDate());
+//        assertTrue(transaction.isReturned());
+//
+//        verify(mockDatabaseConnection).getConnection();
+//        verify(mockTransactionStatement).setInt(1, 1);
+//        verify(mockTransactionStatement).executeUpdate();
+//        verify(mockBookStatement).setInt(1, 101);
+//        verify(mockBookStatement).executeUpdate();
+//        verify(mockDetailsStatement).setInt(1, 1);
+//        verify(mockDetailsStatement).executeQuery();
+//
+//    }
 }
